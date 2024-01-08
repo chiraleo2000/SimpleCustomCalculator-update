@@ -1,0 +1,63 @@
+@* SimpleCustomCalculator\Views\Calculator\Index.cshtml *@
+
+@model SimpleCustomCalculator.Models.CalculatorModel
+
+@{
+    Layout = null;
+    var theme = Model.CurrentTheme == "Dark" ? Model.DarkTheme : Model.LightTheme;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.HeaderName @Model.Version</title>
+    <style>
+        body {
+            background-color: @theme.BackgroundColor;
+            color: @theme.TextColor;
+            font-family: Arial, sans-serif; /* Example font family */
+        }
+
+        h1 {
+            font-size: 24px; /* Adjust the size as needed */
+        }
+
+        input, select, button {
+            background-color: @theme.InputBoxColor;
+            color: @theme.TextColor;
+            margin: 5px; /* Added for better spacing */
+        }
+
+        button {
+            background-color: @theme.ButtonColor;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px; /* Adjust result font size as needed */
+        }
+    </style>
+</head>
+<body>
+    <h1>@Model.HeaderName @Model.Version</h1>
+
+    <form asp-action="Index" method="post">
+        <input asp-for="Operand1" type="number" />
+        <select asp-for="Operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+        <input asp-for="Operand2" type="number" />
+        <input type="submit" value="Calculate" />
+        <input type="submit" name="submitButton" value="Switch Theme" style="margin-left: 10px;" />
+    </form>
+
+    @if (Model.Result != 0 || ViewData["ResultDisplayed"] as bool? == true)
+    {
+        <p class="result">Result: @Model.Result</p>
+    }
+</body>
+</html>
+
